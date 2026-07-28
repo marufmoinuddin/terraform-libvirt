@@ -1,0 +1,71 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# terraform.tfvars.example
+# ═══════════════════════════════════════════════════════════════════════════
+# Copy this file → terraform.tfvars and edit the values below.
+#
+#   cp terraform.tfvars.example terraform.tfvars
+#
+# ── Required ──────────────────────────────────────────────────────────────
+
+# Absolute path to the CentOS 9 / CentOS Stream 9 QCOW2 cloud image.
+base_image_path = "/var/lib/libvirt/images/CentOS-Stream-GenericCloud-x86_64-9-latest.x86_64.qcow2"
+
+# Your SSH public key (must be a complete single-line key).
+ssh_public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0... user@host"
+# ── Optional overrides ────────────────────────────────────────────────────
+
+# Comment/uncomment the vm_config block you need:
+
+# --- Test: single small VM for validation ---
+# vm_config = {
+#   terraform-test = {
+#     vcpu       = 2
+#     memory     = 1024
+#     disk_gb    = 10
+#     ip_address = "192.168.122.200"
+#   }
+# }
+
+# --- Production: 1 control-plane + 3 workers ---
+vm_config = {
+  cp1 = {
+    vcpu       = 4
+    memory     = 4096
+    disk_gb    = 20
+    ip_address = "192.168.122.150"
+  }
+  w1 = {
+    vcpu       = 2
+    memory     = 2048
+    disk_gb    = 20
+    ip_address = "192.168.122.151"
+  }
+  w2 = {
+    vcpu       = 2
+    memory     = 2048
+    disk_gb    = 20
+    ip_address = "192.168.122.152"
+  }
+  w3 = {
+    vcpu       = 2
+    memory     = 2048
+    disk_gb    = 20
+    ip_address = "192.168.122.153"
+  }
+}
+
+# --- Network (defaults are usually fine) ---
+gateway     = "192.168.122.1"
+dns_servers = ["192.168.122.1", "1.1.1.1", "8.8.8.8"]
+domain_name = "home.local"
+network_name = "default"
+
+# --- Storage ---
+storage_pool_name = "default"
+storage_pool_path = "/var/lib/libvirt/images"
+
+# --- UEFI/OVMF paths ---
+# If you are using ubuntu or debian host the paths below will not work. 
+# You will need to install the edk2-ovmf package and set the paths below to the correct location.
+ovmf_code_path = "/usr/share/edk2/x64/OVMF_CODE.4m.fd"
+ovmf_vars_path = "/usr/share/edk2/x64/OVMF_VARS.4m.fd"

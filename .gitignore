@@ -1,0 +1,75 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# .gitignore — Terraform libvirt project
+# ═══════════════════════════════════════════════════════════════════════════
+# This file prevents sensitive data from being committed to Git.
+# Do NOT remove or comment out entries without understanding the risk.
+# ═══════════════════════════════════════════════════════════════════════════
+
+# ── Terraform state (CAN contain secrets in plain text) ───────────────────
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# ── Terraform plan files (CONTAIN secrets) ────────────────────────────────
+*.tfplan
+
+# ── Terraform variable files (CONTAIN secrets like SSH keys, passwords) ──
+*.tfvars
+*.tfvars.json
+!terraform.tfvars.example
+
+# ── Terraform CLI directory & lock file ───────────────────────────────────
+.terraform/
+.terraform.lock.hcl
+
+# ── Terraform CLI config ──────────────────────────────────────────────────
+.terraformrc
+terraform.rc
+
+# ── Secrets / credentials (catch-all) ─────────────────────────────────────
+*.pem
+*.key
+*.cert
+*.crt
+*.p12
+*.pfx
+*.secret
+*.env
+*.env.*
+id_rsa
+id_ed25519
+
+# ── IDE / editor ──────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-*
+*.bak
+*.orig
+
+# ── OS / filesystem ───────────────────────────────────────────────────────
+Thumbs.db
+Desktop.ini
+*.log
+
+# ── Scripts (user-specific; not part of the reusable module) ──────────────
+*.sh
+
+# ── Python / build artifacts ──────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# ── Local config overrides ────────────────────────────────────────────────
+*.local
