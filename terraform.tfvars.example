@@ -69,3 +69,7 @@ storage_pool_path = "/var/lib/libvirt/images"
 # You will need to install the edk2-ovmf package and set the paths below to the correct location.
 ovmf_code_path = "/usr/share/edk2/x64/OVMF_CODE.4m.fd"
 ovmf_vars_path = "/usr/share/edk2/x64/OVMF_VARS.4m.fd"
+
+# ubuntu
+# ovmf_code_path = "/usr/share/OVMF/OVMF_CODE_4M.fd"
+# ovmf_vars_path = "/usr/share/OVMF/OVMF_VARS_4M.fd"
