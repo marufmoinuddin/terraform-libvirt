@@ -11,7 +11,7 @@
 base_image_path = "/var/lib/libvirt/images/CentOS-Stream-GenericCloud-x86_64-9-latest.x86_64.qcow2"
 
 # Your SSH public key (must be a complete single-line key).
-ssh_public_key = file("~/.ssh/id_ed25519.pub")
+ssh_public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0... user@host"
 # ── Optional overrides ────────────────────────────────────────────────────
 
 # Comment/uncomment the vm_config block you need:
