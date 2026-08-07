@@ -149,9 +149,14 @@ resource "libvirt_domain" "vm" {
             file = libvirt_volume.cloudinit_iso.path
           }
         }
+        # Attach the cloud-init ISO as a virtio disk (vdb), NOT SATA.
+        # The Debian cloud kernel has no ahci.ko driver, so a SATA-attached
+        # cidata ISO is invisible to the guest -> ds-identify finds no
+        # datasource -> cloud-init is disabled and hostname/IP/SSH are never
+        # applied. virtio is supported by the cloud kernel (root disk is vda).
         target = {
-          dev = "sda"
-          bus = "sata"
+          dev = "vdb"
+          bus = "virtio"
         }
         driver = {
           name = "qemu"
@@ -213,9 +218,20 @@ resource "libvirt_domain" "vm" {
       }
     ]
 
+    # QEMU guest agent channel.
+    # NOTE: the old `type = "unix"` field is NOT part of the provider 0.9.x
+    # channel schema and is silently ignored, which produced a pty channel
+    # that libvirt cannot use ("unable to handle agent type: pty").
+    # Setting `source.unix` makes the provider emit <channel type='unix'>
+    # so libvirt can talk to the guest agent (virsh qemu-agent-command,
+    # virsh domifaddr, virt-manager IP display all rely on this).
     channels = var.qemu_agent_enabled ? [
       {
-        type = "unix"
+        source = {
+          unix = {
+            mode = "bind"
+          }
+        }
         target = {
           virt_io = {
             name = "org.qemu.guest_agent.0"
