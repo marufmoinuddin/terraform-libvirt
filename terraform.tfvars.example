@@ -7,8 +7,9 @@
 #
 # ── Required ──────────────────────────────────────────────────────────────
 
-# Absolute path to the CentOS 9 / CentOS Stream 9 QCOW2 cloud image.
-base_image_path = "/var/lib/libvirt/images/CentOS-Stream-GenericCloud-x86_64-9-latest.x86_64.qcow2"
+# Absolute path to the Debian 12 (bookworm) genericcloud QCOW2 image.
+# Download the latest image from https://cloud.debian.org/images/cloud/bookworm/latest/
+base_image_path = "/var/lib/libvirt/images/debian-12-genericcloud-amd64.qcow2"
 
 # Your SSH public key (must be a complete single-line key).
 ssh_public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0... user@host"

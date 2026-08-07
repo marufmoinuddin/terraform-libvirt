@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------
 
 resource "libvirt_volume" "base_image" {
-  name = "centos10-base.qcow2"
+  name = "debian12-base.qcow2"
   pool = var.storage_pool_name
   target = {
     format = {
