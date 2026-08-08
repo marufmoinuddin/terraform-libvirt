@@ -404,7 +404,7 @@ Place it anywhere you have enough space. Common locations:
 | Path | Notes |
 |------|-------|
 | `/var/lib/libvirt/images/` | Default libvirt storage |
-| `/mnt/vms1/` | Fast storage (your environment) |
+| `/var/lib/libvirt/images/` | Fast storage (your environment) |
 | `/mnt/data/` | Large encrypted storage |
 
 Update `base_image_path` in `terraform.tfvars` to match your location.
@@ -435,7 +435,7 @@ Then open `terraform.tfvars` and set at least these two things:
 Example (single test VM):
 
 ```hcl
-base_image_path = "/mnt/vms1/CentOS-Stream-GenericCloud-x86_64-10-latest.x86_64.qcow2"
+base_image_path = "/var/lib/libvirt/images/CentOS-Stream-GenericCloud-x86_64-10-latest.x86_64.qcow2"
 
 ssh_public_key = "ssh-ed25519 AAAA...your-key-here... user@host"
 

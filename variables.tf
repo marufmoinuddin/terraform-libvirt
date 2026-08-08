@@ -41,7 +41,7 @@ variable "base_image_path" {
       (or the CentOS 10 / CentOS Stream 10 release URL)
 
     Example:
-      /mnt/vms1/CentOS-Stream-10-20250701.0-x86_64-latest-kvm.qcow2
+      /var/lib/libvirt/images/CentOS-Stream-10-20250701.0-x86_64-latest-kvm.qcow2
   EOT
   type        = string
 }
