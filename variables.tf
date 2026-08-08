@@ -17,13 +17,27 @@ variable "libvirt_uri" {
 # ── storage pool ──────────────────────────────────────────────────────────
 
 variable "storage_pool_name" {
-  description = "Name of the libvirt storage pool for VM disks"
+  description = <<-EOT
+    Name of the libvirt storage pool for VM disks.
+
+    Use "default" to keep the pool that libvirt auto-creates.  To use a
+    custom storage location, pick any other name (e.g. "terraform") and set
+    storage_pool_path to the directory you want — Terraform creates the pool
+    (and the directory) automatically.
+  EOT
   type        = string
   default     = "default"
 }
 
 variable "storage_pool_path" {
-  description = "Path to the libvirt storage pool directory on the host"
+  description = <<-EOT
+    Filesystem path of the storage pool directory on the host.  Used both as
+    the pool target (when a custom pool is created) and as the directory
+    where the VM overlay disks are created.
+
+    Example:
+      /home/you/.local/share/libvirt/terraform
+  EOT
   type        = string
   default     = "/var/lib/libvirt/images"
 }

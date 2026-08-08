@@ -26,4 +26,7 @@ module "vm" {
   ovmf_vars_path = var.ovmf_vars_path
 
   qemu_agent_enabled = var.qemu_agent_enabled
+
+  # Ensure the storage pool exists before the module creates volumes in it.
+  depends_on = [libvirt_pool.storage]
 }
