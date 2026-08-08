@@ -42,6 +42,18 @@ variable "storage_pool_path" {
   default     = "/var/lib/libvirt/images"
 }
 
+variable "storage_pool_owner" {
+  description = "Numeric UID that owns the custom storage pool directory (your user id)"
+  type        = string
+  default     = "1000"
+}
+
+variable "storage_pool_group" {
+  description = "Numeric GID that owns the custom storage pool directory (your primary group id)"
+  type        = string
+  default     = "1000"
+}
+
 # ── base image ────────────────────────────────────────────────────────────
 
 variable "base_image_path" {

@@ -17,6 +17,18 @@ resource "libvirt_pool" "storage" {
   type = "dir"
   target = {
     path = var.storage_pool_path
+    permissions = {
+      mode  = "0755"
+      owner = var.storage_pool_owner
+      group = var.storage_pool_group
+    }
+  }
+
+  # Safety: without this, the provider's default for a dir pool is to DELETE
+  # the pool directory (and everything in it) on `terraform destroy`.  Keep
+  # the directory and its files intact — only undefine the pool.
+  destroy = {
+    delete = false
   }
 }
 
