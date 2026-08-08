@@ -17,31 +17,56 @@ variable "libvirt_uri" {
 # ── storage pool ──────────────────────────────────────────────────────────
 
 variable "storage_pool_name" {
-  description = "Name of the libvirt storage pool for VM disks"
+  description = <<-EOT
+    Name of the libvirt storage pool for VM disks.
+
+    Use "default" to keep the pool that libvirt auto-creates.  To use a
+    custom storage location, pick any other name (e.g. "terraform") and set
+    storage_pool_path to the directory you want — Terraform creates the pool
+    (and the directory) automatically.
+  EOT
   type        = string
   default     = "default"
 }
 
 variable "storage_pool_path" {
-  description = "Path to the libvirt storage pool directory on the host"
+  description = <<-EOT
+    Filesystem path of the storage pool directory on the host.  Used both as
+    the pool target (when a custom pool is created) and as the directory
+    where the VM overlay disks are created.
+
+    Example:
+      /home/you/.local/share/libvirt/terraform
+  EOT
   type        = string
   default     = "/var/lib/libvirt/images"
+}
+
+variable "storage_pool_owner" {
+  description = "Numeric UID that owns the custom storage pool directory (your user id)"
+  type        = string
+  default     = "1000"
+}
+
+variable "storage_pool_group" {
+  description = "Numeric GID that owns the custom storage pool directory (your primary group id)"
+  type        = string
+  default     = "1000"
 }
 
 # ── base image ────────────────────────────────────────────────────────────
 
 variable "base_image_path" {
   description = <<-EOT
-    Absolute path to the CentOS 10 (or compatible) QCOW2 cloud image on the
+    Absolute path to the Debian 12 (bookworm) genericcloud QCOW2 image on the
     host filesystem.  This file is read-only and used as a backing store for
     every VM overlay disk.
 
     If the image is missing, download it from:
-      https://cloud.centos.org/centos/10-stream/x86_64/images/
-      (or the CentOS 10 / CentOS Stream 10 release URL)
+      https://cloud.debian.org/images/cloud/bookworm/latest/
 
     Example:
-      /mnt/vms1/CentOS-Stream-10-20250701.0-x86_64-latest-kvm.qcow2
+      /var/lib/libvirt/images/debian-12-genericcloud-amd64.qcow2
   EOT
   type        = string
 }

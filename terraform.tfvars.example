@@ -62,6 +62,14 @@ domain_name = "home.local"
 network_name = "default"
 
 # --- Storage ---
+# Custom storage location: Terraform creates the pool (and the directory)
+# automatically — no virsh commands needed.  To use it, set the pool name to
+# anything other than "default" and point the path at the directory you want.
+#
+# storage_pool_name = "terraform"
+# storage_pool_path = "/home/you/.local/share/libvirt/terraform"
+#
+# The default below keeps libvirt's built-in pool.
 storage_pool_name = "default"
 storage_pool_path = "/var/lib/libvirt/images"
 

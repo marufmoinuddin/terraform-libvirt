@@ -20,10 +20,22 @@ resource "terraform_data" "create_overlay" {
     var.base_image_path,
     var.vm_name,
     var.disk_gb,
+    local.overlay_path,
   ]
+
+  # Stored so the destroy provisioner can reference it via self.input
+  # (destroy-time provisioners may only reference the resource itself).
+  input = local.overlay_path
 
   provisioner "local-exec" {
     command = "sudo qemu-img create -f qcow2 -b '${var.base_image_path}' -F qcow2 '${local.overlay_path}' ${var.disk_gb}G"
+  }
+
+  # Remove the overlay disk when the VM is destroyed. Runs after the domain
+  # is destroyed (reverse destroy order), so the file is no longer in use.
+  provisioner "local-exec" {
+    when    = destroy
+    command = "sudo rm -f '${self.input}'"
   }
 }
 
