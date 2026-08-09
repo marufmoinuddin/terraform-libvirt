@@ -14,7 +14,7 @@ module "vm" {
 
   pool_name       = var.storage_pool_name
   pool_path       = var.storage_pool_path
-  base_image_path = "${var.storage_pool_path}/${var.base_image_volume_name}"
+  base_image_path = libvirt_volume.base_image.path
 
   network_name   = var.network_name
   gateway        = var.gateway
@@ -27,7 +27,6 @@ module "vm" {
 
   qemu_agent_enabled = var.qemu_agent_enabled
 
-  # Ensure the storage pool and the base image exist before the module
-  # creates volumes in them.
-  depends_on = [libvirt_pool.storage, terraform_data.base_image]
+  # Ensure the storage pool exists before the module creates volumes in it.
+  depends_on = [libvirt_pool.storage]
 }

@@ -32,31 +32,20 @@ resource "libvirt_pool" "storage" {
   }
 }
 
-resource "terraform_data" "base_image" {
-  triggers_replace = [
-    var.base_image_path,
-    var.storage_pool_name,
-    var.storage_pool_path,
-    var.base_image_volume_name,
-  ]
-
-  # Make sure the pool exists before we check/copy the volume into it.
-  depends_on = [libvirt_pool.storage]
-
-  # Idempotent: if the volume already exists in the pool (e.g. created by
-  # another Terraform cluster sharing this pool), reuse it instead of
-  # failing with "storage volume ... exists already".
-  provisioner "local-exec" {
-    command = <<-EOT
-      set -e
-      if virsh vol-info "${var.base_image_volume_name}" --pool "${var.storage_pool_name}" >/dev/null 2>&1; then
-        echo "Base image volume '${var.base_image_volume_name}' already exists in pool '${var.storage_pool_name}' — skipping creation."
-      else
-        echo "Creating base image volume '${var.base_image_volume_name}' in pool '${var.storage_pool_name}'..."
-        sudo cp --sparse=always "${var.base_image_path}" "${var.storage_pool_path}/${var.base_image_volume_name}"
-        sudo chown libvirt-qemu:libvirt-qemu "${var.storage_pool_path}/${var.base_image_volume_name}"
-        virsh pool-refresh "${var.storage_pool_name}"
-      fi
-    EOT
+resource "libvirt_volume" "base_image" {
+  name = "debian12-base.qcow2"
+  pool = var.storage_pool_name
+  target = {
+    format = {
+      type = "qcow2"
+    }
   }
+  create = {
+    content = {
+      url = var.base_image_path
+    }
+  }
+
+  # Make sure the pool exists before creating a volume in it.
+  depends_on = [libvirt_pool.storage]
 }
