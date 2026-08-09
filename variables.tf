@@ -71,6 +71,16 @@ variable "base_image_path" {
   type        = string
 }
 
+variable "base_image_volume_name" {
+  description = <<-EOT
+    Name of the base image volume inside the storage pool.  If a volume with
+    this name already exists in the pool (e.g. created by another Terraform
+    cluster sharing the same pool), it is reused instead of being re-created.
+  EOT
+  type        = string
+  default     = "debian12-base.qcow2"
+}
+
 # ── network ───────────────────────────────────────────────────────────────
 
 variable "network_name" {
