@@ -73,7 +73,7 @@ output "summary" {
     VMs: ${length(var.vm_config)}
     ─────────────────────────────────────────
     Storage pool: ${var.storage_pool_name} → ${var.storage_pool_path}
-    Base image:   ${var.storage_pool_path}/${var.base_image_volume_name}
+    Base image:   ${libvirt_volume.base_image.path}
 
     Review terraform.tfvars before applying.
     Run: terraform plan  then  terraform apply
